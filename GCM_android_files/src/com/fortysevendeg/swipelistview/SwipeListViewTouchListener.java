@@ -31,8 +31,10 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.sepeiupdates.gcm.R;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -169,6 +171,24 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
      */
     private void setBackView(View backView) {
         this.backView = backView;
+        Button delButton = (Button)backView.findViewById(R.id.swipe_delete);
+        Button markReadButton = (Button)backView.findViewById(R.id.swipe_mRead);
+        
+        delButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				swipeListView.delButtonClick(downPosition);			
+			}
+		});
+        markReadButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				swipeListView.markReadClick(downPosition);			
+			}
+		});
+        
         backView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -790,6 +810,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                         velocityTracker.addMovement(motionEvent);
                         if (swipeBackView > 0) {
                             setBackView(child.findViewById(swipeBackView));
+                            view.performClick();
                         }
                         break;
                     }
@@ -919,6 +940,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                     cancelEvent.setAction(MotionEvent.ACTION_CANCEL |
                             (MotionEventCompat.getActionIndex(motionEvent) << MotionEventCompat.ACTION_POINTER_INDEX_SHIFT));
                     swipeListView.onTouchEvent(cancelEvent);
+                    cancelEvent.recycle();
                     if (swipeCurrentAction == SwipeListView.SWIPE_ACTION_CHOICE) {
                         backView.setVisibility(View.GONE);
                     }
@@ -1127,5 +1149,4 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
             }
         }
     }
-
 }

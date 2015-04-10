@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<!-- saved from url=(0026)http://www.dotslash.co.za/ -->
+<html lang="en" class="wf-ffdagnywebpro-n2-active wf-ffdagnywebpro-n4-active wf-ffdagnywebpro-n7-active wf-futurapt-n7-active wf-myriadpro-n4-active wf-myriadpro-n3-active wf-myriadpro-n7-active wf-active" style="overflow-y: hidden; margin: 0px; padding: 0px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script async="" src="./Example22_files/saved_resource"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="A digital agency with a twist, we can offer more technical support than most other companies."><meta name="author">
+
+    <!-- Styles -->
+    <link href="./Example22_files/dotslash.css" rel="stylesheet" type="text/css">
+    <link href="./Example22_files/responsive.css" rel="stylesheet" type="text/css">
+    <link href="./Example22_files/fsn.css" rel="stylesheet" type="text/css">
+    <link href="./Example22_files/glyphicons.css" rel="stylesheet" type="text/css">
+    <link href="./Example22_files/firefox.css" rel="stylesheet" type="text/css">
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="http://www.dotslash.co.za/ico/favicon.ico"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.dotslash.co.za/ico/apple-touch-icon-144-precomposed.png"><link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://www.dotslash.co.za/ico/apple-touch-icon-114-precomposed.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://www.dotslash.co.za/ico/apple-touch-icon-72-precomposed.png"><link rel="apple-touch-icon-precomposed" href="http://www.dotslash.co.za/ico/apple-touch-icon-57-precomposed.png">
+
+    <!-- Javascript -->
+    <script type="text/javascript" async="" src="./Example22_files/dc.js"></script><script type="text/javascript" src="./Example22_files/jquery.js"></script>
+    <script type="text/javascript" src="./Example22_files/dropdown.js"></script>
+    <script type="text/javascript" src="./Example22_files/collapse.js"></script>
+    <script type="text/javascript" src="./Example22_files/modal.js"></script>
+    <script type="text/javascript" src="./Example22_files/base.js"></script>
+    <script type="text/javascript" src="./Example22_files/swfobject.js"></script>
+
+    <script data-main="/scripts/fsn/plugin.js" src="./Example22_files/require-jquery.js"></script>
+    <script src="./Example22_files/jquery.touchSwipe.min.js"></script>
+    <script type="text/javascript" src="./Example22_files/sgl6fnk.js"></script>
+    <style type="text/css">.tkff-dagny-web-pro{font-family:"ff-dagny-web-pro",sans-serif;}.tk-futura-pt{font-family:"futura-pt",sans-serif;}.tk-myriad-pro{font-family:"myriad-pro",sans-serif;}</style><link rel="stylesheet" href="http://use.typekit.net/c/6b5b89/1w;ff-dagny-web-pro,2,Vch:N:n2,VZm:N:n4,VZp:N:n7;futura-pt,2,SH5:N:n7;myriad-pro,2,Xc9:N:n3,XcH:N:n4,Xc0:N:n7/d?3bb2a6e53c9684ffdc9a9afe195b2a6290e57de54ffd90397ef00df61bae46c91a382d5a04e63282df28869fec2abf41de029e5d2c1303589c3d0a074893fa7719da7b7a9bc0314525ff28359d5dfeed90bf44"><script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
+
+
+
+    <!--[if lt IE 8]>
+	    <style>
+	   .navbar .nav {visibility: hidden;}
+	   </style>
+    <![endif]-->
+
+    <script id="InterestTemplate" type="text/html">
+        <option value="<#= i.InterestID #>"><#= i.Name #></option>
+    </script>
+
+    <script>
+
+ 
+    </script>
+
+    <script>
+
+        //used for presentation mode
+
+
+
+
+        //-----------------------------------------------
+
+        $(function ()
+        {
+
+            $('#fsn').on('fsn-pageChanged', function (e, $page)
+            {
+                var hash = window.location.hash;
+                hash = hash.replace('#', '.');
+                $(hash).addClass("active");
+
+            });
+
+        });
+
+        function extractDelta(e)
+        {
+            if (e.wheelDelta) return e.wheelDelta;
+            if (e.detail) return e.detail * -40;
+            if (e.originalEvent && e.originalEvent.wheelDelta)
+                return e.originalEvent.wheelDelta;
+        }
+
+        var pageActive, noLeft, noRight;
+
+        var _debug = true;
+        var _placeholderSupport = function ()
+        {
+            var t = document.createElement("input");
+            t.type = "text";
+            return (typeof t.placeholder !== "undefined");
+        }();
+
+        $(document).ready(function (e)
+        {/*
+            $(document).bind('mousewheel', function (event)
+            {
+                if (pageActive)
+                    return;
+
+                var delta = extractDelta(event);
+
+                pageActive = true;
+                if (delta > 0)
+                {
+                    if (noLeft)
+                    {
+                        pageActive = false;
+                        return;
+                    }
+                    $('.left.fsn-navigation-arrow').click();
+                }
+                else
+                {
+                    if (noRight)
+                    {
+                        pageActive = false;
+                        return;
+                    }
+                    $('.right.fsn-navigation-arrow').click();
+                }
+            });*/
+
+            $('#fsn').on('fsn-pageChanged', function (e, $page)
+            {
+                if ($page.context.nextElementSibling == null)
+                    noRight = true;
+                else
+                    noRight = false;
+
+                if ($page.context.previousElementSibling == null)
+                    noLeft = true;
+                else
+                    noLeft = false;
+
+                pageActive = false;
+            });
+
+            /*$('#fsn').on('fsn-ready', function ()
+            {
+                $("#fsn").swipe(
+				{
+				    swipe: function (event, direction, distance, duration, fingerCount)
+				    {
+				        if (direction == 'right')
+				            $('.left.fsn-navigation-arrow').click();
+				        else
+				            $('.right.fsn-navigation-arrow').click();
+
+				    },
+				    threshold: 75
+				});
+            });*/
+
+        });
+
+
+        function PlaceholderFormSubmit(oForm)
+        {
+            for (var i = 0; i < oForm.elements.length; i++)
+            {
+                var curElement = oForm.elements[i];
+                HandlePlaceholderItemSubmit(curElement);
+            }
+        }
+
+        function HandlePlaceholderItemSubmit(element)
+        {
+            if (element.name)
+            {
+                var curPlaceholder = element.getAttribute("placeholder");
+                if (curPlaceholder && curPlaceholder.length > 0 && element.value === curPlaceholder)
+                {
+                    element.value = "";
+                    window.setTimeout(function ()
+                    {
+                        element.value = curPlaceholder;
+                    }, 100);
+                }
+            }
+        }
+
+        function DoPlaceHolderText()
+        {
+            var arrInputs = document.getElementsByTagName("input");
+
+            var inputsArray = new Array();
+
+            try
+            {
+                inputsArray = arrInputs.prototype.slice.call(arrInputs);
+            }
+            catch (e)
+            {
+                inputsArray = $A(arrInputs);
+            }
+
+            var textAreaInputs = document.getElementsByTagName("textarea");
+
+            var textAreaArray = new Array();
+
+            try
+            {
+                textAreaArray = textAreaInputs.prototype.slice.call(textAreaInputs);
+            }
+            catch (e)
+            {
+                textAreaArray = $A(textAreaInputs);
+            }
+
+            var array = new Array();
+            array = inputsArray.concat(textAreaArray);
+
+            for (var i = 0; i < array.length; i++)
+            {
+                var curInput = array[i];
+                if (!curInput.type || curInput.type == "" || curInput.type == "text")
+                    HandlePlaceholder(curInput);
+                else if (curInput.type == "password")
+                    ReplaceWithText(curInput);
+            }
+
+            if (!_placeholderSupport)
+            {
+                for (var i = 0; i < document.forms.length; i++)
+                {
+                    var oForm = document.forms[i];
+                    if (oForm.attachEvent)
+                    {
+                        oForm.attachEvent("onsubmit", function ()
+                        {
+                            PlaceholderFormSubmit(oForm);
+                        });
+                    }
+                    else if (oForm.addEventListener)
+                        oForm.addEventListener("submit", function ()
+                        {
+                            PlaceholderFormSubmit(oForm);
+                        }, false);
+                }
+            }
+        }
+
+        function ReplaceWithText(oPasswordTextbox)
+        {
+            if (_placeholderSupport)
+                return;
+            var oTextbox = document.createElement("input");
+            oTextbox.type = "text";
+            oTextbox.id = oPasswordTextbox.id;
+            oTextbox.name = oPasswordTextbox.name;
+            //oTextbox.style = oPasswordTextbox.style;
+            oTextbox.className = oPasswordTextbox.className;
+            for (var i = 0; i < oPasswordTextbox.attributes.length; i++)
+            {
+                var curName = oPasswordTextbox.attributes.item(i).nodeName;
+                var curValue = oPasswordTextbox.attributes.item(i).nodeValue;
+                if (curName !== "type" && curName !== "name")
+                {
+                    oTextbox.setAttribute(curName, curValue);
+                }
+            }
+            oTextbox.originalTextbox = oPasswordTextbox;
+            oPasswordTextbox.parentNode.replaceChild(oTextbox, oPasswordTextbox);
+            HandlePlaceholder(oTextbox);
+            if (!_placeholderSupport)
+            {
+                oPasswordTextbox.onblur = function ()
+                {
+                    if (this.dummyTextbox && this.value.length === 0)
+                    {
+                        this.parentNode.replaceChild(this.dummyTextbox, this);
+                    }
+                };
+            }
+        }
+
+        function HandlePlaceholder(oTextbox)
+        {
+            if (!_placeholderSupport)
+            {
+                var curPlaceholder = oTextbox.getAttribute("placeholder");
+                if (curPlaceholder && curPlaceholder.length > 0)
+                {
+                    Debug("Placeholder found for input box '" + oTextbox.name + "': " + curPlaceholder);
+                    oTextbox.value = curPlaceholder;
+                    oTextbox.setAttribute("old_color", oTextbox.style.color);
+                    oTextbox.style.color = "#c0c0c0";
+                    oTextbox.onfocus = function ()
+                    {
+                        var _this = this;
+                        if (this.originalTextbox)
+                        {
+                            _this = this.originalTextbox;
+                            _this.dummyTextbox = this;
+                            this.parentNode.replaceChild(this.originalTextbox, this);
+                            _this.focus();
+                        }
+                        Debug("input box '" + _this.name + "' focus");
+                        _this.style.color = _this.getAttribute("old_color");
+                        if (_this.value === curPlaceholder)
+                            _this.value = "";
+                    };
+                    oTextbox.onblur = function ()
+                    {
+                        var _this = this;
+                        Debug("input box '" + _this.name + "' blur");
+                        if (_this.value === "")
+                        {
+                            _this.style.color = "#c0c0c0";
+                            _this.value = curPlaceholder;
+                        }
+                    };
+                }
+                else
+                {
+                    Debug("input box '" + oTextbox.name + "' does not have placeholder attribute");
+                }
+            }
+            else
+            {
+                Debug("browser has native support for placeholder");
+            }
+        }
+
+        function Debug(msg)
+        {
+
+        }
+
+        function $A(iterable)
+        {
+            if (!iterable) return [];
+            if ('toArray' in Object(iterable)) return iterable.toArray();
+            var length = iterable.length || 0, results = new Array(length);
+            while (length--) results[length] = iterable[length];
+            return results;
+        }
+
+    </script>
+
+
+    
+
+<style>
+h1{font-size:38px;padding-bottom:0px;}
+@media (min-width: 1200px) {
+h1{font-size:41px;}
+}
+.wrap{
+  background: url(../images/background.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;}
+  .fsn-dots{display:none !important;}
+  #home-menu{background-color:#fff;color:#000;}
+#home-menu i::before{color:#000;}
+#home-menu i::before {color: #333;}
+.active .bigdot li{overflow:visible;}
+
+</style>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+				setTimeout(AddClass, 2000);
+            	
+        });
+
+        function AddClass()
+        {
+            $('.container').addClass('active');
+        }
+     
+
+    </script>
+    
+    
+
+<title>
+	digital agency | dot slash
+</title><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="plugin" src="./Example22_files/plugin.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="config" src="./Example22_files/config.js"></script><style type="text/css">.jspScrollable:focus{outline:none}.jspContainer{overflow:hidden; position:relative}.jspContainer:focus{outline:none}.jspPane{position:absolute}.jspPane.jspPane{position:absolute}.jspVerticalBar{position:absolute; top:0; right:0; width:16px; height:100%}.jspHorizontalBar{position:absolute; bottom:0; left:0; width:100%; height:16px}.jspVerticalBar *, .jspHorizontalBar *{margin:0; padding:0}.jspCap{display:none}.jspHorizontalBar .jspCap{float:left}.jspTrack{background:#dde; position:relative}.jspDrag{background:#bbd; position:relative; top:0; left:0; cursor:pointer}.jspHorizontalBar .jspTrack, .jspHorizontalBar .jspDrag{float:left; height:100%}.jspArrow{background:#50506d; text-indent:-20000px; display:block; cursor:pointer}.jspArrow.jspDisabled{cursor:default; background:#80808d}.jspVerticalBar .jspArrow{height:16px}.jspHorizontalBar .jspArrow{width:16px; float:left; height:100%}.jspVerticalBar .jspArrow:focus{outline:none}.jspCorner{background:#eeeef4; float:left; height:100%}</style><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+
+<body style="overflow-y: hidden; margin: 0px; padding: 0px;">
+
+    <form name="aspnetForm" method="post" action="" onsubmit="javascript:return WebForm_OnSubmit();" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMjEwNDQyMTMxMw9kFgJmD2QWAgIBD2QWAgICDxYCHgdjb250ZW50BV1BIGRpZ2l0YWwgYWdlbmN5IHdpdGggYSB0d2lzdCwgd2UgY2FuIG9mZmVyIG1vcmUgdGVjaG5pY2FsIHN1cHBvcnQgdGhhbiBtb3N0IG90aGVyIGNvbXBhbmllcy5kZIjEY9oh7zgwWbaqOjj4SU083q/n">
+</div>
+
+
+<script src="./Example22_files/WebResource.axd" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</script>
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="CA0B0334">
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAc/hLhhsdDJwkb3+W3DAevvCuhded3U7QofsIHOjGIzRn0NlRimd1V8DQl2BPH3CcS+tbaghlbnbzEx77oU9U24bMoQFIbdeKK5BUISM/sj8KcepDfRl/Rdt7ttujxlAqWb2rTtQR1NA43Edb6ky9N4FMJPCtrK77sAeuSU9K3nq/vh8tk=">
+</div>
+
+        <div class="navbar navbar-inverse navbar-fixed-top hidden-phone">
+            <ul menu="" class="nav">
+                
+       <a class="brand" href="./Example22_files/Example22.html">
+                    <img src="./Example22_files/logo.png" alt="dot slash" width="209" height="60" id="dotslashlogo"></a>
+<li><a href="./Example22_files/Example22.html" id="home-menu" class="glyphicons home"><i></i><span>Home</span></a></li>
+<li><a href="http://www.dotslash.co.za/agency" id="ourteam-menu" class="glyphicons group"><i></i><span>Agency</span></a></li>
+
+<li><a href="http://www.dotslash.co.za/knowledge" id="knowledge-menu" class="glyphicons log_book"><i></i><span>Knowledge</span></a>
+    <ul class="submenu">
+		<li><a id="knowledge-submenu" href="http://www.dotslash.co.za/knowledge" class="glyphicons log_book"><i></i>Knowledge</a></li>
+
+        <li><a href="http://www.dotslash.co.za/content-first" class="glyphicons more_items" id="content-first"><i></i>Content first strategy</a></li>
+        <li><a href="http://www.dotslash.co.za/faq" class="glyphicons circle_question_mark" id="faq_menu"><i></i>FAQ</a>
+    </li></ul>
+</li>
+<li><a href="http://www.dotslash.co.za/our-work" id="work-menu" class="glyphicons heart"><i></i><span>Our work</span></a>
+</li>
+<li><a href="http://www.dotslash.co.za/careers" id="careers-menu" class="glyphicons briefcase"><i></i><span>Careers</span></a></li>
+<li><a href="http://www.dotslash.co.za/contact" id="contact-menu" class="glyphicons envelope"><i></i><span>Contact</span></a></li>
+
+
+            </ul>
+        </div>
+
+
+
+        
+
+        <div class="wrap">
+
+            
+
+<div class="mobile-menu visible-phone">
+	<div><a class="cartBtn glyphicons show_lines" title="Toggle Right Sidebar"><i></i>Menu</a></div>
+	<div class="mobileTitle" id="divMobileTitle"><span style="text-transform:lowercase;">dot slash</span><img height="40" src="./Example22_files/mobile-logo.png" alt="dot slash - digital agency"></div>
+</div>
+
+            <div id="fsn" style="visibility: visible; position: relative; overflow: hidden; margin: 0px; padding: 0px; display: block; height: 795px;"><div class="fsn-wrap" style="position: relative; margin: 0px; padding: 0px; display: block; width: auto; height: 795px;"><!--[if lt IE 9]>
+	<div id=ieMessage>
+			<div class=box1>
+					<div>
+							<strong>Your browser is outdated.</strong><br><br>We will be unable to showcase our capabilities on a browser that is being phased out. We recommend joining millions of other internet users by using Google's Chrome browser.<br><br>
+							<a href="https://www.google.com/intl/en/chrome/browser/" target="_blank">Download</a>
+					</div>
+			</div>
+     		
+     		<div class=box2>
+	 				<div>
+	 						<img src="/images/logo.png" alt="dot slash" width="209" height="60" style="margin-bottom:10px;margin-left:15px;"><br>
+	 						We are a digital agency, that specializes in marketing your company online, and making sure your target market can engage with you in a profitable manner.<br><br>
+	 						<em><strong style="font-size:28px">086 1234 287</strong><br><a href="mailto:info@dotslash.co.za" >info@dotslash.co.za</a></em>
+	 				</div>
+	 		</div>
+	 </div>
+<![endif]-->
+
+
+
+                
+
+
+
+
+        <div class="container active">
+        <table class="portfolio-table" style="width:100%">
+        <tbody><tr>
+        	<td rowspan="2" class="automart">&nbsp;&nbsp;</td><td class="mirage">&nbsp;&nbsp;</td><td class="ncs">&nbsp;&nbsp;</td><td class="gloo">&nbsp;&nbsp;</td><td class="junkmail">&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+        	<td class="trucktrailer"></td><td>&nbsp;&nbsp;</td><td class="rsa" rowspan="2">&nbsp;&nbsp;</td><td class="palmeira">&nbsp;&nbsp;</td>
+        </tr>
+                <tr>
+        	<td class="labournet">&nbsp;&nbsp;</td><td class="ITS">&nbsp;&nbsp;</td><td class="zingg">&nbsp;&nbsp;</td><td class="vox" rowspan="2">&nbsp;&nbsp;</td>
+        </tr>
+                <tr>
+        	<td class="alexander"></td><td class="britehouse"></td><td>&nbsp;&nbsp;</td><td class="trustco">&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+        	<td class="uj"></td><td class="dgmc">&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td class="kolok">&nbsp;&nbsp;</td><td class="southpoint">&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+        	<td></td>
+        </tr>
+        </tbody></table>
+            <div class="row-fluid fast">
+
+                <div class="span6" style="margin-top: 7%">
+
+<a href="http://www.dotslash.co.za/our-work" class="ourstory">our work</a>
+			   <div class="center-pos homepage-dot">
+                        <ul id="scene" class="bigdot animation1 glyphicons " style="font-family: &#39;futura-pt&#39;;font-size:38px;display:table;">
+                            <i></i><span style="display:table-cell;vertical-alignment:middle"><h1>digital<br>agency</h1></span>
+											
+											<li class="ball5">
+                                                <div class="smalldot animation2"><span>web</span></div>
+                                            </li>
+                            <li class="ball3">
+                                <div class="smalldot animation3"><span>mobile</span></div>
+                            </li>
+							<li class="ball2" "="">
+                                <div class="smalldot animation3"><span>apps</span></div>
+                            </li>
+                            	<li class="ball8">
+                                <div class="smalldot animation3 leads"><span>lead<br>generation</span></div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+                <!-------------------- FSN FOOTER -------------------->
+                <div class="orientation-message">I'm just guessing here, but I think you might want to give the site a little bit more space to view.</div>
+
+                <div class="footer-body">
+                    
+                    <div class="accounts"><a class="glyphicons imac" onclick="toggleFullScreen();$(&#39;body&#39;).toggleClass(&#39;presentation-mode&#39;);"><i></i></a>&nbsp;<a class="glyphicons dashboard" href="http://accounts.dotslash.co.za/" target="_blank"><i></i>Client Portal</a></div>
+                    
+
+
+<div class="site-number"><i></i>086 1234 287</div>
+<div id="contact-form">
+    <div id="divContactUs">
+                	<div class="success-message"><div>Message sent successfully!</div></div>
+	                		<div class="call-us">
+	                		
+		                		<div class="form">
+		                		<div class="call-us-header"><h6>Get in touch</h6><a class="close" onclick="HideContactUsForm()">×</a></div>
+<div><span class="form-icon glyphicons user"><i></i></span><span class="Value"><input type="hidden" name="ctl00$ctl13$hdEnquiryID" id="hdEnquiryID" value="0"><input name="ctl00$ctl13$txtName" type="text" id="txtName" placeholder="Your name"><span id="ctl00_ctl13_reqName" class="Validation" style="color:Red;display:none;">!</span></span></div>
+		                		
+		                		
+		                		<div><span class="form-icon glyphicons cup"><i></i></span><span class="Value"><input name="ctl00$ctl13$txtCompanyName" type="text" id="txtCompanyName" placeholder="Company Name"><span id="ctl00_ctl13_reqCompanyName" class="Validation" style="color:Red;display:none;">!</span></span></div>
+		                		
+		                		
+		                				                		<div><span class="form-icon glyphicons envelope"><i></i></span><span class="Value"><input name="ctl00$ctl13$txtEmail" type="text" id="txtEmail" placeholder="Email Address"><span id="ctl00_ctl13_regEmail" class="Validation" style="color:Red;display:none;">Invalid</span></span></div>
+		                				                		
+		                				                		<div><span class="form-icon glyphicons phone"><i></i></span><span class="Value"><input name="ctl00$ctl13$txtContactNumber" type="text" maxlength="10" id="txtContactNumber" placeholder="Contact Number"><span id="ctl00_ctl13_compNumber" class="Validation" style="color:Red;visibility:hidden;">!</span></span></div>
+		                		
+		                		<div><span class="form-icon glyphicons heart"><i></i></span><span class="Value"><select name="ctl00$ctl13$ddlInterestID" id="ddlInterestID">
+
+</select></span></div>
+		                		
+		                		
+		                		<div><span class="form-icon glyphicons pencil"><i></i></span><span class="Value"><textarea name="ctl00$ctl13$txtMessage" rows="2" cols="20" id="txtMessage" placeholder="Message"></textarea><span id="ctl00_ctl13_reqMessage" class="Validation" style="color:Red;display:none;">!</span></span></div>
+		                		
+		                		
+		                		</div>
+
+		                		<div class="glyphicons iphone"><i></i><div class="number"><i></i>086 1234 287</div></div><a onclick="HideShowContactUsForm()" class="contact-button glyphicons envelope"><i></i><em></em></a><a onclick="SendEnquiry()" id="submitbutton" class="contact-submit glyphicons envelope"><i></i></a>
+		    
+		                	</div>
+        </div>
+                </div>
+                </div></div></div>
+        </div>
+
+        <div class="cart">
+            
+       <a class="brand" href="./Example22_files/Example22.html">
+                    <img src="./Example22_files/logo.png" alt="dot slash" width="209" height="60" id="dotslashlogo"></a>
+<li><a href="./Example22_files/Example22.html" id="home-menu" class="glyphicons home"><i></i><span>Home</span></a></li>
+<li><a href="http://www.dotslash.co.za/agency" id="ourteam-menu" class="glyphicons group"><i></i><span>Agency</span></a></li>
+
+<li><a href="http://www.dotslash.co.za/knowledge" id="knowledge-menu" class="glyphicons log_book"><i></i><span>Knowledge</span></a>
+    <ul class="submenu">
+		<li><a id="knowledge-submenu" href="http://www.dotslash.co.za/knowledge" class="glyphicons log_book"><i></i>Knowledge</a></li>
+
+        <li><a href="http://www.dotslash.co.za/content-first" class="glyphicons more_items" id="content-first"><i></i>Content first strategy</a></li>
+        <li><a href="http://www.dotslash.co.za/faq" class="glyphicons circle_question_mark" id="faq_menu"><i></i>FAQ</a>
+    </li></ul>
+</li>
+<li><a href="http://www.dotslash.co.za/our-work" id="work-menu" class="glyphicons heart"><i></i><span>Our work</span></a>
+</li>
+<li><a href="http://www.dotslash.co.za/careers" id="careers-menu" class="glyphicons briefcase"><i></i><span>Careers</span></a></li>
+<li><a href="http://www.dotslash.co.za/contact" id="contact-menu" class="glyphicons envelope"><i></i><span>Contact</span></a></li>
+
+
+        </div>
+        <div id="divMessageContainer">
+	<div id="divMessage"></div>
+    </div>
+        
+
+<script type="text/javascript">
+
+    var m_accountID = 'UA-1807121-1';
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', m_accountID]);
+    _gaq.push(['_trackPageview']);
+
+    (function ()
+    {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+    function TrackVirtualPageview(page)
+    {
+        var skypeTracker = _gat._getTracker(m_accountID);
+        skypeTracker._trackPageview(document.location.href + '/' + page);
+    }
+
+</script>
+
+    
+<script type="text/javascript">
+//<![CDATA[
+var Page_Validators =  new Array(document.getElementById("ctl00_ctl13_reqName"), document.getElementById("ctl00_ctl13_reqCompanyName"), document.getElementById("ctl00_ctl13_regEmail"), document.getElementById("ctl00_ctl13_compNumber"), document.getElementById("ctl00_ctl13_reqMessage"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var ctl00_ctl13_reqName = document.all ? document.all["ctl00_ctl13_reqName"] : document.getElementById("ctl00_ctl13_reqName");
+ctl00_ctl13_reqName.controltovalidate = "txtName";
+ctl00_ctl13_reqName.focusOnError = "t";
+ctl00_ctl13_reqName.errormessage = "!";
+ctl00_ctl13_reqName.display = "Dynamic";
+ctl00_ctl13_reqName.validationGroup = "DSContactUs";
+ctl00_ctl13_reqName.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_ctl13_reqName.initialvalue = "";
+var ctl00_ctl13_reqCompanyName = document.all ? document.all["ctl00_ctl13_reqCompanyName"] : document.getElementById("ctl00_ctl13_reqCompanyName");
+ctl00_ctl13_reqCompanyName.controltovalidate = "txtCompanyName";
+ctl00_ctl13_reqCompanyName.focusOnError = "t";
+ctl00_ctl13_reqCompanyName.errormessage = "!";
+ctl00_ctl13_reqCompanyName.display = "Dynamic";
+ctl00_ctl13_reqCompanyName.validationGroup = "DSContactUs";
+ctl00_ctl13_reqCompanyName.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_ctl13_reqCompanyName.initialvalue = "";
+var ctl00_ctl13_regEmail = document.all ? document.all["ctl00_ctl13_regEmail"] : document.getElementById("ctl00_ctl13_regEmail");
+ctl00_ctl13_regEmail.controltovalidate = "txtEmail";
+ctl00_ctl13_regEmail.errormessage = "Invalid";
+ctl00_ctl13_regEmail.display = "Dynamic";
+ctl00_ctl13_regEmail.validationGroup = "DSContactUs";
+ctl00_ctl13_regEmail.evaluationfunction = "RegularExpressionValidatorEvaluateIsValid";
+ctl00_ctl13_regEmail.validationexpression = "[\\w\\.-]+(\\+[\\w-]*)?@([\\w-]+\\.)+[\\w-]+";
+var ctl00_ctl13_compNumber = document.all ? document.all["ctl00_ctl13_compNumber"] : document.getElementById("ctl00_ctl13_compNumber");
+ctl00_ctl13_compNumber.controltovalidate = "txtContactNumber";
+ctl00_ctl13_compNumber.errormessage = "!";
+ctl00_ctl13_compNumber.validationGroup = "DSContactUs";
+ctl00_ctl13_compNumber.type = "Integer";
+ctl00_ctl13_compNumber.evaluationfunction = "CompareValidatorEvaluateIsValid";
+ctl00_ctl13_compNumber.operator = "DataTypeCheck";
+var ctl00_ctl13_reqMessage = document.all ? document.all["ctl00_ctl13_reqMessage"] : document.getElementById("ctl00_ctl13_reqMessage");
+ctl00_ctl13_reqMessage.controltovalidate = "txtMessage";
+ctl00_ctl13_reqMessage.focusOnError = "t";
+ctl00_ctl13_reqMessage.errormessage = "!";
+ctl00_ctl13_reqMessage.display = "Dynamic";
+ctl00_ctl13_reqMessage.validationGroup = "DSContactUs";
+ctl00_ctl13_reqMessage.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_ctl13_reqMessage.initialvalue = "";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        //]]>
+</script>
+</form>
+
+    <script type="text/javascript" src="./Example22_files/slides.js"></script>
+
+
+
+
+</body></html>

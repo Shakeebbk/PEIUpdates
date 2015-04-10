@@ -61,4 +61,15 @@ public class BaseSwipeListViewListener implements SwipeListViewListener {
     @Override
     public void onLastListItem() {
     }
+
+	@Override
+	public void delButtonClick(int position) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void markReadClick(int position) {
+		// TODO Auto-generated method stub
+		
+	}
 }

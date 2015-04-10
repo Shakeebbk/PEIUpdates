@@ -117,4 +117,7 @@ public interface SwipeListViewListener {
      */
     void onLastListItem();
 
+	void delButtonClick(int position);
+	void markReadClick(int position);
+
 }

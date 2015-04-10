@@ -1,6 +1,5 @@
 <resources>
 
-    <string name="app_name">GCM Android Example</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">Android Push Notifications</string>
@@ -21,5 +20,9 @@
     <string name="options_unregister">Unregister</string>
     <string name="options_clear">Clear</string>
     <string name="options_exit">Exit</string>
+    <string name="action_deleteDB">Clear DB</string>
+    <string name="action_edit_prefs">Settings</string>
+    <string name="action_fileterDB">Filter DB</string>
+    <string name="app_title">   PEI Updates ..</string>  
 
 </resources>

@@ -1,0 +1,6 @@
+@-moz-document url-prefix() {
+.bigdot,.active .bigdot{transform: translateZ(0px) rotateZ(0deg);}
+.bigdot{opacity:0}
+.active .bigdot{opacity:1}
+
+}

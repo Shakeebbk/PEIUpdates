@@ -3,26 +3,31 @@
    //Storing new user and returns user details
    
    function storeUser($name, $email, $gcm_regid) {
-	   
-        // insert user into database
-        $result = mysql_query("INSERT INTO gcm_users(name, email, gcm_regid, created_at) VALUES('$name', '$email', '$gcm_regid', NOW())");
-		
-        // check for successful store
-        if ($result) {
-			
-            // get user details
-            $id = mysql_insert_id(); // last inserted id
-            $result = mysql_query("SELECT * FROM gcm_users WHERE id = $id") or die(mysql_error());
-            // return user details
-            if (mysql_num_rows($result) > 0) {
-                return mysql_fetch_array($result);
-            } else {
-                return false;
-            }
-			
-        } else {
-            return false;
-        }
+	    $result = mysql_query("SELECT `name` FROM gcm_users WHERE `name` = '$name'") or die(mysql_error());
+		// return user details
+			if (mysql_num_rows($result) > 0) {
+					return mysql_fetch_array($result);
+			} else {	 
+				// insert user into database
+				$result = mysql_query("INSERT INTO gcm_users(name, email, gcm_regid, created_at) VALUES('$name', '$email', '$gcm_regid', NOW())");
+				
+				// check for successful store
+				if ($result) {
+					
+					// get user details
+					$id = mysql_insert_id(); // last inserted id
+					$result = mysql_query("SELECT * FROM gcm_users WHERE id = $id") or die(mysql_error());
+					// return user details
+					if (mysql_num_rows($result) > 0) {
+						return mysql_fetch_array($result);
+					} else {
+						return false;
+					}
+					
+				} else {
+					return false;
+				}
+		}
     }
 
     /**
@@ -41,7 +46,20 @@
 
     // Validate user
   function isUserExisted($email) {
-        $result    = mysql_query("SELECT email from gcm_users WHERE email = '$email'");
+        $result    = mysql_query("SELECT `email` from gcm_users WHERE `email` = '$email'");
+        $NumOfRows = mysql_num_rows($result);
+        if ($NumOfRows > 0) {
+            // user existed
+            return true;
+        } else {
+            // user not existed
+            return false;
+        }
+    }
+	
+	    // Validate user
+  function isregIdExisted($regId) {
+        $result    = mysql_query("SELECT `gcm_regid` from gcm_users WHERE `gcm_regid` = '$regId'");
         $NumOfRows = mysql_num_rows($result);
         if ($NumOfRows > 0) {
             // user existed

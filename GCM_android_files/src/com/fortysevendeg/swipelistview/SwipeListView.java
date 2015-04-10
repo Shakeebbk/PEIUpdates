@@ -33,7 +33,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import com.androidexample.gcm.R;
+import com.sepeiupdates.gcm.R;
 
 /**
  * ListView subclass that provides the swipe functionality
@@ -424,7 +424,27 @@ public class SwipeListView extends ListView {
             swipeListViewListener.onClickBackView(position);
         }
     }
-
+    
+    /**
+     * Notifies delButtonClick
+     *
+     * @param position back item clicked
+     */
+    protected void delButtonClick(int position) {
+        if (swipeListViewListener != null && position != ListView.INVALID_POSITION) {
+            swipeListViewListener.delButtonClick(position);
+        }
+    }
+    /**
+     * Notifies markReadButtonClick
+     *
+     * @param position back item clicked
+     */
+    protected void markReadClick(int position) {
+        if (swipeListViewListener != null && position != ListView.INVALID_POSITION) {
+            swipeListViewListener.markReadClick(position);
+        }
+    }
     /**
      * Notifies onOpened
      *
@@ -504,6 +524,7 @@ public class SwipeListView extends ListView {
         if (swipeListViewListener != null) {
             swipeListViewListener.onListChanged();
         }
+        touchListener.resetItems();
     }
 
     /**
@@ -656,12 +677,17 @@ public class SwipeListView extends ListView {
                     touchState = TOUCH_STATE_REST;
                     lastMotionX = x;
                     lastMotionY = y;
+                    //mCallbacks.onDownMotionEvent();
                     return false;
                 case MotionEvent.ACTION_CANCEL:
                     touchState = TOUCH_STATE_REST;
+                    //quick return implementation
+                    //mCallbacks.onUpOrCancelMotionEvent();
                     break;
                 case MotionEvent.ACTION_UP:
                     touchListener.onTouch(this, ev);
+                    //quick return implementation
+                    //mCallbacks.onUpOrCancelMotionEvent();
                     return touchState == TOUCH_STATE_SCROLLING_Y;
                 default:
                     break;
@@ -703,6 +729,21 @@ public class SwipeListView extends ListView {
      */
     public void closeOpenedItems() {
         touchListener.closeOpenedItems();
+    }
+
+    //quick return implemenatation
+    
+    //quick return implemenation
+    public static interface Callbacks {
+        public void onScrollChanged(int scrollY);
+        public void onDownMotionEvent();
+        public void onUpOrCancelMotionEvent();
+    }
+    //quick return implementation
+    public Callbacks mCallbacks;
+    
+    public void setCallbacks(Callbacks listener) {
+        mCallbacks = listener;
     }
 
 }
