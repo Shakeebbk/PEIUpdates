@@ -18,6 +18,7 @@
 
 package com.fortysevendeg.swipelistview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
@@ -43,6 +44,7 @@ public class SwipeListView extends ListView {
     /**
      * log tag
     */
+	int mLastFirstVisibleItem;
     public final static String TAG = "SwipeListView";
 	
     /**
@@ -175,7 +177,8 @@ public class SwipeListView extends ListView {
      *
      * @param attrs AttributeSet
      */
-    private void init(AttributeSet attrs) {
+    @SuppressLint("ClickableViewAccessibility")
+	private void init(AttributeSet attrs) {
 
         int swipeMode = SWIPE_MODE_BOTH;
         boolean swipeOpenOnLongPress = true;
@@ -443,6 +446,16 @@ public class SwipeListView extends ListView {
     protected void markReadClick(int position) {
         if (swipeListViewListener != null && position != ListView.INVALID_POSITION) {
             swipeListViewListener.markReadClick(position);
+        }
+    }
+    /**
+     * Notifies scroll UP
+     *
+     * @param position back item clicked
+     */
+    protected void setScrollingUp(boolean isUP) {
+        if (swipeListViewListener != null) {
+            swipeListViewListener.setScrollingUp(isUP);
         }
     }
     /**

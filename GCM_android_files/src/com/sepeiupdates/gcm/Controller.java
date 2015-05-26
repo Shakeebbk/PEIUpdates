@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 import com.google.android.gcm.GCMRegistrar; 
 import com.sepeiupdates.gcm.Config.ConnectionStatus;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
@@ -55,8 +56,8 @@ public class Controller extends Application{
             
             try {
             	//Send Broadcast to Show message on screen
-            	displayMessageOnScreen(context, context.getString(
-                        R.string.server_registering, i, MAX_ATTEMPTS));
+            	//displayMessageOnScreen(context, context.getString(
+                //        R.string.server_registering, i, MAX_ATTEMPTS));
                 
                 // Post registration values to web server
             	Log.d("#MyAppDebug Controller", "#posting " + serverUrl);
@@ -69,7 +70,7 @@ public class Controller extends Application{
                 
                 //Send Broadcast to Show message on screen
                 //String message = context.getString(R.string.server_registered);
-                //displayMessageOnScreen(context, message);
+                displayMessageOnScreen(context, Config.ISCONTROLLER);
                 
                 return;
             } catch (IOException e) {
@@ -77,7 +78,7 @@ public class Controller extends Application{
                 // Here we are simplifying and retrying on any error; in a real
                 // application, it should retry only on unrecoverable errors
                 // (like HTTP error code 503).
-            	
+            	displayMessageOnScreen(context, Config.ISCONTROLLER_NOT_REGISTERED);
                 Log.e(Config.TAG, "Failed to register on attempt " + i + ":" + e);
                 Log.d("#MyAppDebug Controller", "S "+MainActivity.conStatus);
                 
@@ -94,6 +95,7 @@ public class Controller extends Application{
                     Thread.sleep(backoff);
                     
                 } catch (InterruptedException e1) {
+                	displayMessageOnScreen(context, Config.ISCONTROLLER_NOT_REGISTERED);
                     // Activity finished before we complete - exit.
                     Log.d(Config.TAG, "Thread interrupted: abort remaining retries!");
                     Thread.currentThread().interrupt();
@@ -128,8 +130,7 @@ public class Controller extends Application{
         try {
             post(serverUrl, params);
             GCMRegistrar.setRegisteredOnServer(context, false);
-            String message = context.getString(R.string.server_unregistered);
-            displayMessageOnScreen(context, message);
+            displayMessageOnScreen(context, Config.ISCONTROLLER_NOT_REGISTERED);
         } catch (Exception e) {
         	
             // At this point the device is unregistered from GCM, but still
@@ -138,9 +139,7 @@ public class Controller extends Application{
             // if the server tries to send a message to the device, it will get
             // a "NotRegistered" error message and should unregister the device.
         	
-            String message = context.getString(R.string.server_unregister_error,
-                    e.getMessage());
-            displayMessageOnScreen(context, message);
+            displayMessageOnScreen(context, Config.ISCONTROLLER_NOT_REGISTERED);
         }
     }
 
@@ -239,8 +238,10 @@ public class Controller extends Application{
         intent.putExtra(Config.EXTRA_MESSAGE, message);
         
         // Send Broadcast to Broadcast receiver with message
-        context.sendBroadcast(intent);
-        
+        if((MainActivity.isVisible == true) && message!=null) {
+        	Log.d("#MyAppDebug Registration", "display mesasage Intent");
+        	context.sendBroadcast(intent);
+        }
     }
     
     
@@ -273,7 +274,8 @@ public class Controller extends Application{
     
     private PowerManager.WakeLock wakeLock;
     
-    @SuppressWarnings("deprecation")
+    @SuppressLint("Wakelock")
+	@SuppressWarnings("deprecation")
 	public  void acquireWakeLock(Context context) {
         if (wakeLock != null) wakeLock.release();
 

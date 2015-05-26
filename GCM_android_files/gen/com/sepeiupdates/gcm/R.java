@@ -231,16 +231,17 @@ containing a value of this type.
         public static final int title_activity_main=0x7f060002;
     }
     public static final class style {
-        public static final int ActionBar_Solid_Myactionbar=0x7f070007;
+        public static final int ActionBar_Solid_Myactionbar=0x7f070008;
         public static final int AppTheme=0x7f070000;
         /**  the theme applied to the application or activity 
          */
-        public static final int CustomActionBarTheme=0x7f070006;
-        public static final int Item=0x7f070005;
+        public static final int CustomActionBarTheme=0x7f070007;
+        public static final int Item=0x7f070006;
         public static final int MyListBackContent=0x7f070001;
         public static final int MyListButtonAction=0x7f070002;
         public static final int MyListImage=0x7f070003;
         public static final int MyListTitle=0x7f070004;
+        public static final int Theme_MyCustomProgressDialog=0x7f070005;
     }
     public static final class styleable {
         /** Attributes that can be used with a SwipeListView.

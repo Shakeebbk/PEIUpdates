@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="android:Theme.Light" />
     <style name="MyListBackContent">
@@ -30,6 +30,14 @@
        <item name="android:textStyle">bold</item>
        <item name="android:maxLines">2</item>
        <item name="android:ellipsize">end</item>
+   </style>
+   
+   <style name="Theme.MyCustomProgressDialog" parent="@android:style/Theme.DeviceDefault.Light.Dialog.MinWidth">
+       <item name="android:windowNoTitle">true</item>
+       <item name="android:windowContentOverlay">@null</item>
+       <item name="android:textColor">@color/green</item>
+       <item name="android:textColorPrimary">@color/green</item>
+       <item name="android:textColorSecondary">@color/green</item>
    </style>
 
    <style name="Item">

@@ -1,10 +1,10 @@
 package com.sepeiupdates.gcm;
 
-import com.sepeiupdates.gcm.Config.ConnectionStatus;
-
+import com.sepeiupdates.gcm.R;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,12 +55,12 @@ public class RegisterActivity extends Activity {
 		if (!aController.isConnectingToInternet()) {
 			
 			// Internet Connection is not present
-			aController.showAlertDialog(RegisterActivity.this,
-					"Internet Connection Error",
-					"Please connect to working Internet connection", false);
+			//aController.showAlertDialog(RegisterActivity.this,
+			//		"Internet Connection Error",
+			//		"Please connect to working Internet connection", false);
 			
 			// stop executing code by return
-			return;
+			//return;
 		}
 
 		// Check if GCM configuration is set
@@ -147,7 +147,10 @@ public class RegisterActivity extends Activity {
 				}else{
 					
 					// user doen't filled that data
-					aController.showAlertDialog(RegisterActivity.this, "Registration Error!", "Please check account details", false);
+					final AlertDialog ad = new AlertDialog(RegisterActivity.this, R.style.Theme_MyCustomProgressDialog) {};
+					ad.setTitle("Registration Error!");
+					ad.setMessage("Please check account details");
+					ad.show();
 				}
 			}
 		});

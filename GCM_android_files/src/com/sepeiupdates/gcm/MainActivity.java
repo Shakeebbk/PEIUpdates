@@ -3,6 +3,7 @@ package com.sepeiupdates.gcm;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,6 +17,8 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -23,11 +26,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.fortysevendeg.swipelistview.BaseSwipeListViewListener;
 import com.fortysevendeg.swipelistview.SwipeListView;
@@ -52,12 +51,10 @@ public class MainActivity extends Activity {
 	
 	boolean isFilterRead = false;
 
-	private int mLastFirstVisibleItem;
 	private boolean scrollingUp=false;
 	
 	public static boolean isActionBarShown=true;
 	
-	public static int unread=0;
 	public static ConnectionStatus conStatus = ConnectionStatus.CONNECTION_ERROR;
 	
 	public boolean isScrollingUp() {
@@ -95,6 +92,7 @@ public class MainActivity extends Activity {
 	public static String regId;
 	
 	public static boolean showConn;
+	public static boolean isVisible = false;
 	
 	SQLiteDatabase messagesDB;
 	
@@ -131,6 +129,8 @@ public class MainActivity extends Activity {
         case R.id.action_edit_prefs:
         	// Unregister Broadcast Receiver
 			unregisterReceiver(mHandleMessageReceiver);
+			
+			GCMRegistrar.setRegisteredOnServer(getBaseContext(), false);
 			
 			//Clear internal resources.
 			GCMRegistrar.onDestroy(getApplicationContext());
@@ -172,6 +172,7 @@ public class MainActivity extends Activity {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
+		isVisible = false;
 		mRegisterTask.cancel(true);
 		try {
 			// Unregister Broadcast Receiver
@@ -191,13 +192,15 @@ public class MainActivity extends Activity {
 		super.onResume();
 		Log.d("#MyAppDebugAPPState", "onResume");
 		
+		isVisible = true;
+		
 		aController = (Controller) getApplicationContext();
 		// Check if Internet present
 		if (!aController.isConnectingToInternet()) {
 					// Internet Connection is not present
-					aController.showAlertDialog(MainActivity.this,
-							"Internet Connection Error",
-							"Please connect to Internet connection", false);
+					//aController.showAlertDialog(MainActivity.this,
+					//		"Internet Connection Error",
+					//		"Please connect to Internet connection", false);
 					conStatus = ConnectionStatus.CONNECTION_ERROR;
 					getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_logo_no_connection));
 					// stop executing code by return
@@ -255,6 +258,7 @@ public class MainActivity extends Activity {
 				
 			}
 		}
+		clearUpdateAdapter();
 	}
 	@SuppressLint("CutPasteId")
 	@Override
@@ -263,6 +267,8 @@ public class MainActivity extends Activity {
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		setContentView(R.layout.activity_main);
 
+		isVisible = true;
+		
 		Log.d("#MyAppDebugAPPState", "onCreate");
 		Log.d("#MyAppDebug", "1!");
 
@@ -297,6 +303,7 @@ public class MainActivity extends Activity {
 		
 		
 		//Debug
+		/*
 		String curDate = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
 		messagesDB.execSQL("DELETE FROM messages");
 		messagesDB.execSQL("INSERT INTO messages(Title, Body, TS, HLink, IsRead, Tag) VALUES('"+"Title12345566666666613fgzdfaklmsdkgj"+"','"+
@@ -321,7 +328,7 @@ public class MainActivity extends Activity {
 				"Body1 has been made long please take casre while updating it in the message, CONGRATS!! Hurray,,,,,,,,,, explempfary stupendous growth opportunity###$$$$"+"',"+"'"+curDate+"'"+",'"+"http://www.google.com'"+","+0+",'M');");
 		messagesDB.execSQL("INSERT INTO messages(Title, Body, TS, HLink, IsRead, Tag) VALUES('"+"11"+"','"+
 				"Body1 has been made long please take casre while updating it in the message, CONGRATS!! Hurray,,,,,,,,,, explempfary stupendous growth opportunity###$$$$"+"',"+"'"+curDate+"'"+",'"+"http://www.google.com'"+","+0+",'M');");
-		
+		*/
 		final Cursor c;
         // Retrieving all records
 		c=messagesDB.rawQuery("SELECT * FROM messages ORDER BY _id DESC", null);
@@ -330,7 +337,7 @@ public class MainActivity extends Activity {
         	Log.d("#MyAppDebug", "fromDB - No Etries in DB!");
         }
         
-        for(int n=0; c.moveToNext();n++) {
+        while(c.moveToNext()) {
         	String timestamp = c.getString(3);
 
         	Log.d("#MyAppDebug", "fromDB - c.getString(1) "+c.getString(0)+"flag IsRead"+c.getString(5)+"Tag-"+c.getString(6));
@@ -340,6 +347,7 @@ public class MainActivity extends Activity {
         
         lvItems.setAdapter(adapter);
         
+        /*
         //scroll listener
         lvItems.setOnScrollListener(new SwipeListView.OnScrollListener() {
 			
@@ -373,7 +381,7 @@ public class MainActivity extends Activity {
 			        }
 			    }				
 			}
-		});
+		});*/
    /*     
      // Attach the listener to the AdapterView onCreate
         lvItems.setOnScrollListener(new EndlessScrollListener(5) {
@@ -502,6 +510,11 @@ public class MainActivity extends Activity {
             public void onDismiss(int[] reverseSortedPositions) {
     
             }
+            
+            @Override
+            public void setScrollingUp(boolean isUP) {
+            	scrollingUp = isUP;
+            }
     
         });
 		
@@ -573,12 +586,7 @@ public class MainActivity extends Activity {
 		if(curNew.getCount() == 0) {
 			Log.d("#MyAppDebug", "clearUpdateAdapter() fromDB - No Etries in DB!");
 		}
-		
-		//update the unread prefs
-		final Cursor curUnread;
-		curUnread=messagesDB.rawQuery("SELECT * FROM messages WHERE IsRead="+0+" ORDER BY _id", null);
-		this.unread = curUnread.getCount();
-		
+
 		for(int n=0; curNew.moveToNext();n++) {	
 			String timestamp = curNew.getString(3);
 
@@ -598,48 +606,80 @@ public class MainActivity extends Activity {
 			
 			String newMessage = intent.getExtras().getString(Config.EXTRA_MESSAGE);
 
+			if(newMessage == null) return;
+			if(newMessage.isEmpty()) return;
+				
 			// Waking up mobile if it is sleeping
 			aController.acquireWakeLock(getApplicationContext());
-
-			JSONObject obj = null;
-			try {
-
-				obj = new JSONObject(newMessage);
-
-				Log.d("#MyAppDebug", "JSON Obj->"+obj.toString());
-
-				//update list view
-				//adapter.clear();
-				//update the DB
-				try {					
-					messagesDB.beginTransactionNonExclusive();
-					String timestamp = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
-					Log.d("#MyAppDebug", "INSERT INTO messages(Title, Body, TS, HLink, IsRead, Tag) VALUES('"+obj.getString("Title")+"','"+
-							obj.getString("Body")+"','"+timestamp+"','"+obj.getString("Link")+"','"+"0"+"','"+obj.getString("Tag")+"');");
-					messagesDB.execSQL("INSERT INTO messages(Title, Body, TS, HLink, IsRead, Tag) VALUES('"+obj.getString("Title")+"','"+
-							obj.getString("Body")+"','"+timestamp+"','"+obj.getString("Link")+"','"+"0"+"','"+obj.getString("Tag")+"');");
-					messagesDB.setTransactionSuccessful();
-				} catch (SQLException e) {
-					Log.d("#MyAppDebug", "JSON DB insertion ERROR 1");
-					e.printStackTrace();
-				} catch (JSONException e) {
-					Log.d("#MyAppDebug", "JSON DB insertion ERROR 1");
-					e.printStackTrace();
-				}
-				finally {
-					messagesDB.endTransaction();
-				}
-				clearUpdateAdapter();
-
-			} catch (Throwable t) {
-				Log.d("#MyAppDebug", "Could not parse malformed JSON: \"" + newMessage + "\"");
+			
+			Log.d("#MyAppDebug onReceive", "onReceive MainActivity "+newMessage);
+			if(newMessage.equals(Config.ISCONTROLLER)) {
+				//registration done
+				Log.d("#MyAppDebug onReceive", "onReceive MainActivity Config.ISCONTROLLER");
+				getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_logo));
 			}
+			else if(newMessage.equals(Config.ISCONTROLLER_NOT_REGISTERED)) {
+				//registration done
+				Log.d("#MyAppDebug onReceive", "onReceive MainActivity Config.ISCONTROLLER_NOT_REGISTERED");
+				getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_logo_no_registration));
+			}
+			else if(newMessage.equals(Config.ISINTERNET_CHANGE)) {
+				//registration done
+				Log.d("#MyAppDebug onReceive", "onReceive MainActivity Config.ISINTERNET_CHANGE");
+				ConnectivityManager connectivityManager 
+		        = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+				
+				getActionBar().setDisplayShowTitleEnabled(false);
+				getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_logo));
+
+				if((activeNetworkInfo != null && activeNetworkInfo.isConnected()) == false) {
+					getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_logo_no_connection));
+				}
+			}
+			else {
+				Log.d("#MyAppDebug onReceive", "onReceive MainActivity not a Config.ISCONTROLLER");
+				if(isVisible == true) {
+					JSONObject obj = null;
+					try {
+						obj = new JSONObject(newMessage);
+					} catch (JSONException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	
+					//update the DB
+					try {
+						Log.d("#MyAppDebug MainActivity", "onReceive MainActivity JSON Obj->"+obj.toString());
+							Log.d("#MyAppDebug MainActivity", "Inserting the msg now");
+							messagesDB.beginTransactionNonExclusive();
+							String timestamp = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
+							Log.d("#MyAppDebug", "INSERT INTO messages(Title, Body, TS, HLink, IsRead, Tag) VALUES('"+obj.getString("Title")+"','"+
+									obj.getString("Body")+"','"+timestamp+"','"+obj.getString("Link")+"','"+"0"+"','"+obj.getString("Tag")+"');");
+							messagesDB.execSQL("INSERT INTO messages(Title, Body, TS, HLink, IsRead, Tag) VALUES('"+obj.getString("Title")+"','"+
+									obj.getString("Body")+"','"+timestamp+"','"+obj.getString("Link")+"','"+"0"+"','"+obj.getString("Tag")+"');");
+							messagesDB.setTransactionSuccessful();
+							messagesDB.endTransaction();
+					} catch (SQLException e) {
+						Log.d("#MyAppDebug MainActivity", "JSON DB insertion ERROR 1");
+						e.printStackTrace();
+					} catch (JSONException e) {
+						Log.d("#MyAppDebug MainActivity", "JSON DB insertion ERROR 1");
+						e.printStackTrace();
+					}
+					finally {
+						//nothing
+					}
+				}
+			}
+			clearUpdateAdapter();
 			// Display message on the screen
 			//lblMessage.append(newMessage + "\n");			
 			
 			//Toast.makeText(getApplicationContext(), "Got Message: " + newMessage, Toast.LENGTH_LONG).show();
 
 			// Releasing wake lock
+			Log.d("#MyAppDebug", "Releasing wake lock");
 			aController.releaseWakeLock();
 		}
 	};

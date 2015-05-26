@@ -94,6 +94,14 @@
                 <category android:name="com.sepeiupdates.gcm" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name="com.sepeiupdates.gcm.MyInternetReceiver">
+            <intent-filter>
+                <!-- Receives Internet connectivity change events -->
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <category android:name="com.sepeiupdates.gcm" />
+            </intent-filter>
+        </receiver>
 
         <service android:name="com.sepeiupdates.gcm.GCMIntentService" />
     </application>

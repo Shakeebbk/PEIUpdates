@@ -119,5 +119,7 @@ public interface SwipeListViewListener {
 
 	void delButtonClick(int position);
 	void markReadClick(int position);
+	
+	void setScrollingUp(boolean isUP);
 
 }

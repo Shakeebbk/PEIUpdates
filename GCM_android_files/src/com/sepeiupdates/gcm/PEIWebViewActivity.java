@@ -3,10 +3,9 @@ package com.sepeiupdates.gcm;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sepeiupdates.gcm.Config.ConnectionStatus;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -28,6 +27,7 @@ public class PEIWebViewActivity extends Activity {
 	public static String url;
 	public static String regId;
 	
+	@SuppressWarnings("static-access")
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,6 @@ public class PEIWebViewActivity extends Activity {
 			getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_no_connection));
 		}
 		
-		final Activity activity = this;	
 		getWindow().setFeatureInt( Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
 
 		// Getting regId, URL from intent
@@ -61,11 +60,39 @@ public class PEIWebViewActivity extends Activity {
 
 		Log.d("#MyAppDebug PEIWebView onCreate","onCreate");
 		browser = (WebView) findViewById(R.id.webview1);
+		
+		final ProgressDialog pd = new ProgressDialog(this, R.style.Theme_MyCustomProgressDialog);
+		pd.setTitle("Loading WebPage");
+		pd.setMessage("0% Completed");
+		pd.setCancelable(true);
+		pd.setProgressStyle(pd.STYLE_SPINNER);
+		pd.setMax(100);
+		pd.show();
+		
+		browser.getSettings().setJavaScriptEnabled(true);
+		browser.getSettings().setSupportZoom(true);
+		browser.getSettings().setBuiltInZoomControls(true);
+		browser.getSettings().setDisplayZoomControls(false);
+		browser.getSettings().setUseWideViewPort(true);
+		browser.getSettings().setLoadWithOverviewMode(true);
+		
 		browser.setWebChromeClient(new WebChromeClient() {
-			   public void onProgressChanged(WebView view, int progress) {
+			public void onProgressChanged(WebView view, int progress) {
 			     // Activities and WebViews measure progress with different scales.
 			     // The progress meter will automatically disappear when we reach 100%
-			     activity.setProgress(progress * 1000);
+				   Log.d("#MyAppDebug PEIWebView","progress "+progress);
+				   pd.setTitle("Loading WebPage");
+				   pd.setProgress(progress);
+				   pd.setMessage(progress+"% Completed");
+				   if(progress > 80) {
+					   if(pd.isShowing() && pd!=null) {
+						   pd.dismiss();
+					   }
+				   }
+				   if((progress < 25) && !pd.isShowing()){
+					   pd.show();
+				   }
+			     super.onProgressChanged(view, progress);
 			   }
 			 });
 		browser.setWebViewClient(new MyBrowser());
@@ -75,7 +102,6 @@ public class PEIWebViewActivity extends Activity {
 	}
 
 
-	@SuppressWarnings("deprecation")
 	public void open(View view){
 		Log.d("#MyAppDebug PEIWebView open","open - url "+url);
 		//url = "http://www.google.com";

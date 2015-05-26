@@ -17,7 +17,7 @@
      limitations under the License.
 -->
 
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 <!-- the theme applied to the application or activity -->
     <style name="CustomActionBarTheme"
            parent="@android:style/Theme.Holo.Light.DarkActionBar">
@@ -27,7 +27,6 @@
     
     <style name="ActionBar.Solid.Myactionbar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse"> 
         <item name="android:logo">@android:color/transparent</item>
-        
     </style>
 
 </resources>

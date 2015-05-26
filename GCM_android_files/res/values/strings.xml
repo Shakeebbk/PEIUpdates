@@ -23,6 +23,6 @@
     <string name="action_deleteDB">Clear DB</string>
     <string name="action_edit_prefs">Settings</string>
     <string name="action_fileterDB">Filter DB</string>
-    <string name="app_title">   PEI Updates ..</string>  
+    <string name="app_title">PEI Updates</string>  
 
 </resources>

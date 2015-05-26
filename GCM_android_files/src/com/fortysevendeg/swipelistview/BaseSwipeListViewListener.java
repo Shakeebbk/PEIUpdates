@@ -72,4 +72,10 @@ public class BaseSwipeListViewListener implements SwipeListViewListener {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void setScrollingUp(boolean isUP) {
+		// TODO Auto-generated method stub
+		
+	}
 }

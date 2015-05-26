@@ -688,15 +688,17 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
      * @return OnScrollListener
      */
     public AbsListView.OnScrollListener makeScrollListener() {
+    	Log.d("#MyAppDebug SwipeListView", "makeScrollListener");
         return new AbsListView.OnScrollListener() {
-
             private boolean isFirstItem = false;
             private boolean isLastItem = false;
 
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+            	Log.d("#MyAppDebug SwipeListView", "OnScrollState scrollState "+scrollState);
                 setEnabled(scrollState != AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL);
                 if (swipeClosesAllItemsWhenListMoves && scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+                	Log.d("#MyAppDebug SwipeListView", "OnScrollState closeOpenedItems");
                     closeOpenedItems();
                 }
                 if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
@@ -717,7 +719,9 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (isFirstItem) {
+            	Log.d("#MyAppDebug SwipeListView", "onScroll");
+
+            	if (isFirstItem) {
                     boolean onSecondItemList = firstVisibleItem == 1;
                     if (onSecondItemList) {
                         isFirstItem = false;
@@ -741,6 +745,25 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                         swipeListView.onLastListItem();
                     }
                 }
+                
+                if (view.getId() == swipeListView.getId()) {
+			        final int currentFirstVisibleItem = swipeListView.getFirstVisiblePosition();
+
+			        if (currentFirstVisibleItem > swipeListView.mLastFirstVisibleItem) {
+			        	//scroll down, bring up the action bar
+			        	//getActionBar().hide();
+			        	swipeListView.setScrollingUp(true);
+			        } else if (currentFirstVisibleItem < swipeListView.mLastFirstVisibleItem) {
+			        	//scroll up, bring back the action bar
+			        	//getActionBar().show();
+			        	swipeListView.setScrollingUp(false);
+			        }
+
+			        if((currentFirstVisibleItem == (swipeListView.mLastFirstVisibleItem+1)) ||
+			        		(currentFirstVisibleItem == (swipeListView.mLastFirstVisibleItem-1))) {
+			        	swipeListView.mLastFirstVisibleItem = currentFirstVisibleItem;
+			        }
+			    }
             }
         };
     }
@@ -766,6 +789,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
      */
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+    	Log.d("#MyAppDebug SwipeListView", "onTouch");
         if (!isSwipeEnabled()) {
             return false;
         }
